@@ -1,0 +1,172 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Корзина | {% endblock %}
+
+{% block content %}
+    <div style="padding: 30px; padding-top: 10px">
+    <h1 class="title">Корзина</h1>
+
+    {% if cart %}
+
+        <div class="box mb-6">
+            <div class="table">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                    <th></th>
+                    <th>Продукты</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th></th>
+                    </thead>
+
+                    <tbody>
+                    {% for item in cart %}
+                        <tr>
+                            <td>
+                                <figure class="image is-64x64">
+                                    <img src="{{ item.product.get_thumbnail }}">
+                                </figure>
+                            </td>
+                            <td>
+                                <a href="{% url 'product' item.product.category.slug item.product.slug %}">{{ item.product.title }}</a>
+                            </td>
+                            <td>
+                                {{ item.quantity }}
+
+                                <a href="?change_quantity={{ item.id }}&quantity=-1"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                <a href="?change_quantity={{ item.id }}&quantity=1"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                            </td>
+                            <td><i class="fa fa-cubes" aria-hidden="true"></i>{{ item.total_price }}</td>
+                            <td><a href="?remove_from_cart={{ item.id }}" class="delete">Remove</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td><strong>Всего</strong></td>
+                        <td><strong>{{ cart|length }}</strong></td>
+                        <td colspan="2"><strong><i class="fa fa-cubes" aria-hidden="true"></i>{{ cart.get_total_cost }}</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <h2 style="color: #FFF" class="subtitle">Контактная информация</h2>
+
+        <form method="post" action="." id="payment-form">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="notification is-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="notification is-danger">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="columns">
+            <div class="column is-6">
+                <div style="color: #FFF" class="field">
+                    <label>Имя</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="first_name">
+                    </div>
+                </div>
+
+                <div style="color: #FFF" class="field">
+                    <label>Фамилия</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="last_name">
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="column is-6">
+                <div style="color: #FFF" class="field">
+                    <label>Ваш Crypto-ID</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="address">
+                    </div>
+                </div>
+
+                <div style="color: #FFF" class="field">
+                    <label>Адрес доставки</label>
+
+                    <div class="control">
+                        <input class="input" type="text" name="place">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="color: #FFF" style="text-align: center; font-size: 20px">C-QR для оплаты</div>
+            <img class="QR" id="cartQR" src="/static/basephoto/QR-Ton.jpg" alt="альтернативный текст">
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button id="cartBut" style="margin-left: auto; margin-right: auto; display: block; height: 40px;" class="button is-dark mt-4 is-uppercase">Проверить</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% else %}
+        <p>You don't have any products in your cart!</p>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('{{ stripe_pub_key }}');
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripe_token');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
+        }
+    </script>
+    <script src="https://use.fontawesome.com/d77e842e4a.js"></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Добавить продукт | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Добавить продукт</h1>
+
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark is-uppercase">Подтвердить</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

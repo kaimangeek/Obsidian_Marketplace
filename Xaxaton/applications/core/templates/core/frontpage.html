@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Главная | {% endblock %}
+
+{% block content %}
+    <div>
+        <div class="banner">
+            <div class="wrap">
+                <h1 class="banner-h1">Межпланетный маркетплейс</h1>
+                <h3 class="banner-h3">Obsidian</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="columns is-multiline mb-6">
+            <div class="column is-12 has-text-centered mt-6 mb-6">
+                <h2 class="is-size-3">Новые продукты</h2>
+            </div>
+
+            {% for product in newest_products %}
+                {% include 'product/parts/list_item.html' %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ product.title }} | {% endblock %}
+
+{% block content %}
+<div id="productapp">
+    {% if product.image %}
+{#        <figure class="image is-4by3 mb-6">#}
+{#            <img class="mainPhotoItem" :src="mainImage.image">#}
+{#        </figure>#}
+        <div style="padding-bottom: 15px" class="center">
+            <img class="mainPhotoItem" :src="mainImage.image">
+        </div>
+    {% endif %}
+
+<div style="padding-left: 20px">
+        {% if product.images.all %}
+        <hr style="margin-left: -20px">
+
+        <div class="columns">
+            <div class="column is-2" v-for="image in images" v-bind:key="image.id">
+                <img :src="image.thumbnail" @click="changeMainImage(image)">
+            </div>
+        </div>
+    {% endif %}
+
+    <h1 class="title">{{ product.title }}, <i class="fa fa-cubes" aria-hidden="true"></i>{{ product.price }}</h1>
+
+    <p class="mb-6"><span class="tag is-dark">{{ product.vendor.name }}</span></p>
+
+    <p>{{ product.description }}</p>
+
+    <hr style="margin-left: -20px">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification is-success is-toast">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        <div class="field has-addons">
+            <div class="control">
+                <input style="margin-bottom: 20px" type="number" name="quantity" value="1" class="input" min="1">
+            </div>
+
+            <div class="control">
+                <button style="margin-bottom: 20px" class="button is-dark is-uppercase">Добавить в корзину</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+    {% if similar_products %}
+        <hr>
+
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h2 style="color: #FFF; font-family: 'Montserrat', sans-serif" class="subtitle">Похожие товары</h2>
+            </div>
+
+            {% for product in similar_products %}
+                {% include 'product/parts/list_item.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ imagesstring|json_script:"json-imagesstring" }}
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const ProductApp = {
+        data() {
+            return {
+                mainImage: '',
+                images: []
+            }
+        },
+        mounted() {
+            this.images = JSON.parse(JSON.parse(document.getElementById("json-imagesstring").textContent))
+            this.mainImage = this.images[0]
+        },
+        methods: {
+            changeMainImage(image) {
+                this.mainImage = image
+            }
+        }
+    }
+
+    Vue.createApp(ProductApp).mount('#productapp')
+</script>
+    <script src="https://use.fontawesome.com/d77e842e4a.js"></script>
+{% endblock %}

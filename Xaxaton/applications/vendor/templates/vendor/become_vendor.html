@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Стать поставщиком | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Стать поставщиком</h1>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark is-uppercase">Зарегестрироваться</button>
+            </div>
+        </div>
+    </form>
+
+    <hr>
+
+    <h2 class="subtitle">Уже есть аккаунт?</h2>
+
+    <a href="{% url 'login' %}">Войти</a>
+{% endblock %}

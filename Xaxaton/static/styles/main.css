@@ -1,0 +1,260 @@
+body {
+	background-color: #1c1e2e;
+}
+
+html {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 400;
+	background-color: #1c1e2e;
+}
+
+.navbar {
+    text-transform: uppercase;
+}
+
+a.navbar-item:hover {
+	color: #6a52cc;
+}
+
+.navbar.is-black{
+	background-color: #14151e;
+}
+
+.button.is-dark {
+	background-color: #4821b5cc;
+}
+
+.banner {
+	height: 520px;
+	background-color: #07023a;
+	background-image: url(https://img3.akspic.ru/crops/6/5/9/4/4/144956/144956-kosmicheskoe_prostranstvo-ios-temnota-atmosfera-zemlya-3840x2160.jpg);
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+}
+
+.banner-h1 {
+	font-size: 36px;
+	font-family: 'Montserrat', sans-serif;
+	line-height: 44px;
+	font-weight: 900;
+	color: #fff;
+	margin-bottom: 6px;
+}
+
+.banner-h3 {
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 1.2;
+	letter-spacing: .05em;
+	color: hsla(0,0%,100%,.8);
+	margin-bottom: 42px;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.wrap {
+	margin: 0 auto;
+	padding-top: 200px;
+	margin-left: 55%;
+}
+
+.container {
+	padding: 40px 80px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.item {
+	color: white;
+	display: block;
+	line-height: 1.5;
+	padding: 0.75rem 0.75rem;
+	position: relative;
+}
+
+.is-size-3 {
+	color: #FFF;
+}
+
+.navbar-burger {
+	color: white;
+	cursor: pointer;
+	display: block;
+	height: 3.25rem;
+	position: relative;
+	width: 3.25rem;
+	margin-left: auto;
+}
+
+/**
+* Footer
+*/
+
+.footer a {
+    margin-bottom: 15px;
+    display: inline-block;
+    color: #444;
+}
+
+.footer {
+	background-color: #12141f;
+  	left: 0;
+  	bottom: 0;
+  	width: 100%;
+  	height: 80px;
+
+}
+
+/**
+* Bulma overrides
+*/
+
+.input, .button {
+    border-radius: 0;
+}
+
+/**
+ * Product list item
+ */
+
+.product-list-item .box .subtitle {
+    margin-bottom: 0;
+}
+
+.product-list-item .box .price {
+    color: #888;
+}
+
+/**
+* Notification toast
+*/
+
+@keyframes show-toast {
+    0%   {bottom: -100%;}
+    20%  {bottom: 50px;}
+    80%  {bottom: 50px;}
+    100% {bottom: -100%;}
+}
+
+.notification.is-toast {
+    position: fixed;
+    bottom: 100%;
+    right: 20px;
+    animation-name: show-toast;
+    animation-duration: 4s;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+
+ .card-wrap {
+	 margin: 10px;
+	 transform: perspective(1200px);
+	 transform-style: preserve-3d;
+	 cursor: pointer;
+}
+ .card-wrap:hover .card-info {
+	 transform: translateY(0);
+}
+ .card-wrap:hover .card-info p {
+	 opacity: 1;
+}
+ .card-wrap:hover .card-info, .card-wrap:hover .card-info p {
+	 transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+ .card-wrap:hover .card-info:after {
+	 transition: 3s cubic-bezier(0.23, 1, 0.32, 1);
+	 opacity: 1;
+	 transform: translateY(0);
+}
+ .card-wrap:hover .card-bg {
+	 transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 4s cubic-bezier(0.23, 1, 0.32, 1);
+	 opacity: 0.8;
+}
+ .card-wrap:hover .card {
+	 transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+	 box-shadow: none;
+}
+ .card {
+	 position: relative;
+	 flex: 0 0 240px;
+	 width: 320px;
+	 height: 320px;
+	 background-color: #000;
+	 overflow: hidden;
+	 box-shadow: rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset rgba(255, 255, 255, 0.4) 0 0 0 6px;
+	 transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+ .card-bg {
+	 opacity: 0.5;
+	 position: absolute;
+	 top: -20px;
+	 left: -20px;
+	 width: 100%;
+	 height: 100%;
+	 padding: 20px;
+	 background-repeat: no-repeat;
+	 background-position: center;
+	 background-size: cover;
+	 transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95), opacity 4s 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	 pointer-events: none;
+}
+ .card-info {
+	 padding: 20px;
+	 position: absolute;
+	 bottom: 0;
+	 color: #fff;
+	 transform: translateY(40%);
+	 transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+ .card-info p {
+	 opacity: 0;
+	 text-shadow: rgba(0, 0, 0, 1) 0 2px 3px;
+	 transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+ .card-info * {
+	 position: relative;
+	 z-index: 1;
+}
+ .card-info:after {
+	 content: '';
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 z-index: 0;
+	 width: 100%;
+	 height: 100%;
+	 background-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+	 background-blend-mode: overlay;
+	 opacity: 0;
+	 transform: translateY(100%);
+	 transition: 5s 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+ .card-info h1 {
+	 font-family: 'Raleway', sans-serif;
+	 font-size: 36px;
+	 font-weight: 700;
+	 text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px;
+}
+
+ h1, h2, h3, a, p, button {
+	 font-family: 'Montserrat', sans-serif;
+	 color: #FFF;
+ }
+
+/* p:hover {*/
+/*	color: #6a52cc;*/
+/*}*/
+
+a:hover {
+	color: #6a52cc;
+}
+
+.title {
+    color: #FFF;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.125;
+	font-family: 'Montserrat', sans-serif;
+}
+
